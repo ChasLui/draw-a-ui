@@ -1,5 +1,4 @@
 import { track } from '@vercel/analytics/react'
-import { parseDataStreamPart } from 'ai'
 import { useCallback } from 'react'
 import {
 	createShapeId,
@@ -553,22 +552,11 @@ export function useMakeReal() {
 	}, [editor, addDialog, addToast])
 }
 
-function createChunkDecoder(complex?: boolean) {
+function createChunkDecoder() {
 	const decoder = new TextDecoder()
 
-	if (!complex) {
-		return function (chunk: Uint8Array | undefined): string {
-			if (!chunk) return ''
-			return decoder.decode(chunk, { stream: true })
-		}
-	}
-
-	return function (chunk: Uint8Array | undefined) {
-		const decoded = decoder
-			.decode(chunk, { stream: true })
-			.split('\n')
-			.filter((line) => line !== '') // splitting leaves an empty string at the end
-
-		return decoded.map(parseDataStreamPart).filter(Boolean)
+	return function (chunk: Uint8Array | undefined): string {
+		if (!chunk) return ''
+		return decoder.decode(chunk, { stream: true })
 	}
 }

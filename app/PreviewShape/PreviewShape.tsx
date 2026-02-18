@@ -5,7 +5,7 @@ import {
 	DefaultSpinner,
 	HTMLContainer,
 	SvgExportContext,
-	TLBaseShape,
+	TLShape,
 	TLShapeUtilCanBindOpts,
 	TldrawUiIcon,
 	Vec,
@@ -17,19 +17,22 @@ import {
 import { Dropdown } from '../components/Dropdown'
 import { LINK_HOST, PROTOCOL } from '../lib/hosts'
 
-export type PreviewShape = TLBaseShape<
-	'preview',
-	{
-		html: string
-		parts: string[]
-		source: string
-		w: number
-		h: number
-		linkUploadVersion?: number
-		uploadedShapeId?: string
-		dateCreated?: number
+declare module '@tldraw/tlschema' {
+	interface TLGlobalShapePropsMap {
+		preview: {
+			html: string
+			parts: string[]
+			source: string
+			w: number
+			h: number
+			linkUploadVersion?: number
+			uploadedShapeId?: string
+			dateCreated?: number
+		}
 	}
->
+}
+
+export type PreviewShape = TLShape<'preview'>
 
 export class PreviewShapeUtil extends BaseBoxShapeUtil<PreviewShape> {
 	static override type = 'preview' as const

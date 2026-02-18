@@ -6,23 +6,24 @@ import {
 	SVGContainer,
 	ShapeUtil,
 	T,
-	TLBaseShape,
+	TLShape,
 	getPerfectDashProps,
 	resizeBox,
 	useValue,
 } from 'tldraw'
 import { moveToSlide, useSlides } from './useSlides'
 
-export type SlideShape = TLBaseShape<
-	'slide',
-	{
-		w: number
-		h: number
-		// I include this prop for backwards compatibility with some of my saved snapshots
-		// TODO: Write a migration to remove this prop
-		name: string
+declare module '@tldraw/tlschema' {
+	interface TLGlobalShapePropsMap {
+		slide: {
+			w: number
+			h: number
+			name: string
+		}
 	}
->
+}
+
+export type SlideShape = TLShape<'slide'>
 
 export class SlideShapeUtil extends ShapeUtil<SlideShape> {
 	static override type = 'slide' as const

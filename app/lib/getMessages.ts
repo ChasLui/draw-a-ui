@@ -1,4 +1,4 @@
-import { CoreUserMessage, UserContent } from 'ai'
+import { UserContent, UserModelMessage } from 'ai'
 import { PreviewShape } from '../PreviewShape/PreviewShape'
 
 export function getMessages({
@@ -23,7 +23,7 @@ export function getMessages({
 	}
 	previousPreviews?: PreviewShape[]
 }) {
-	const messages: CoreUserMessage[] = [
+	const messages: UserModelMessage[] = [
 		{
 			role: 'user',
 			content: [],

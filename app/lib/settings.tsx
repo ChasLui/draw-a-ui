@@ -10,10 +10,9 @@ export const PROVIDERS = [
 			'gpt-4.1-2025-04-14',
 			'gpt-4o',
 			'gpt-4o-mini',
-			'gpt-4-turbo',
 			'o3-pro-2025-06-10',
 			'o4-mini-2025-04-16',
-		], // 'o1-preview', 'o1-mini'],
+		],
 		prompt: NOVEMBER_19_2025,
 		help: 'https://tldraw.notion.site/Make-Real-Help-93be8b5273d14f7386e14eb142575e6e#a9b75e58b1824962a1a69a2f29ace9be',
 		validate: (key: string) => key.startsWith('sk-'),
@@ -22,15 +21,14 @@ export const PROVIDERS = [
 		id: 'anthropic',
 		name: 'Anthropic',
 		models: [
+			'claude-opus-4-6',
+			'claude-sonnet-4-6',
+			'claude-haiku-4-5',
 			'claude-sonnet-4-5',
 			'claude-sonnet-4-20250514',
 			'claude-3-7-sonnet-20250219',
 			'claude-3-7-sonnet-20250219 (thinking)',
 			'claude-3-5-sonnet-20241022',
-			'claude-3-5-sonnet-20240620',
-			'claude-3-opus-20240229',
-			'claude-3-sonnet-20240229',
-			'claude-3-haiku-20240307',
 		],
 		prompt: NOVEMBER_19_2025,
 		help: 'https://tldraw.notion.site/Make-Real-Help-93be8b5273d14f7386e14eb142575e6e#3444b55a2ede405286929956d0be6e77',
@@ -41,11 +39,9 @@ export const PROVIDERS = [
 		name: 'Google',
 		models: [
 			'gemini-3-pro-preview',
+			'gemini-3-flash-preview',
 			'gemini-2.5-pro',
 			'gemini-2.5-flash',
-			'gemini-2.5-flash-lite-preview-06-17',
-			'gemini-2.0-flash',
-			'gemini-1.5-pro',
 		],
 		prompt: NOVEMBER_19_2025,
 		help: '',
@@ -67,7 +63,7 @@ export const makeRealSettings = atom('make real settings', {
 
 type Settings = ReturnType<typeof makeRealSettings.get>
 
-export const MIGRATION_VERSION = 12
+export const MIGRATION_VERSION = 13
 
 export function applySettingsMigrations(settings: Settings, version: number | undefined) {
 	const { keys, ...rest } = settings
@@ -131,6 +127,10 @@ export function applySettingsMigrations(settings: Settings, version: number | un
 		settingsWithModelsProperty.prompts.openai = NOVEMBER_19_2025
 		settingsWithModelsProperty.prompts.anthropic = NOVEMBER_19_2025
 		settingsWithModelsProperty.prompts.google = NOVEMBER_19_2025
+	}
+
+	if (version < 13) {
+		settingsWithModelsProperty.models.anthropic = 'claude-sonnet-4-6'
 	}
 
 	return settingsWithModelsProperty
